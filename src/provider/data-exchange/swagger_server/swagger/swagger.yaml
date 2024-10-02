@@ -1,0 +1,116 @@
+openapi: 3.0.0
+info:
+  title: CADDE v4 Specification 提供者 データ交換I/F(CADDE)
+  version: "4.0"
+servers:
+- url: /
+paths:
+  /cadde/api/v4/file:
+    get:
+      tags:
+      - Files
+      summary: API. ファイル取得(cadde)
+      description: |-
+        CADDEリクエストを受け付け、コネクタメインに処理を依頼する。
+
+        Response:
+        * 処理が成功した場合は200を返す。
+        * 処理に失敗した場合は、2xx以外を返す。Responsesセクション参照。
+      operationId: files
+      parameters:
+      - name: x-cadde-resource-url
+        in: header
+        description: |-
+          リソースURL
+          （認可ありの限定データの場合、文字長は255文字以内。使用可能文字は半角英数、ハイフン、アンダーバーのみ）
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-resource-api-type
+        in: header
+        description: |-
+         リソース提供手段識別子
+         FTP、HTTP、NGSIのいずれかを指定する(FTP:file/ftp, HTTP:file/http, NGSI:api/ngsi)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 認証方式：Bearer。認証トークン
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-options
+        in: header
+        description: |-
+         NGSIオプション
+         ("key1:value1,key2:value2・・・"形式)
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: |-
+           呼び出し時のリソース提供手段識別子が"file/ftp","file/http"の場合はダウンロードしたファイル "api/ngsi"の場合はJSON形式、また、ヘッダcadde-optionsにレスポンスヘッダ情報、ヘッダ情報に識別情報を設定
+          headers:
+            x-cadde-provenance:
+              description: 来歴管理I/Fから受領した識別情報 識別情報を受領しなかった場合は''(空文字)を設定する
+              schema:
+                type: string
+            x-cadde-provenance-management-service-url:
+              description: 来歴管理サービスURL
+              style: simple
+              explode: false
+              schema:
+                type: string
+            x-cadde-contract-id:
+              description: 取引ID
+              schema:
+                type: string
+            x-cadde-contract-type:
+              description: 契約形態
+              schema:
+                type: string
+            x-cadde-contract-management-service-url:
+              description: 契約管理サービスURL
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              example: text or csv or pdf etc..
+      x-openapi-router-controller: swagger_server.controllers.files_controller
+components:
+  schemas:
+    SuccessResponse:
+      title: HTTPステータスコードが200の場合のレスポンス
+      type: string
+    ErrorResponse:
+      title: HTTPステータスコードが4xx、500の場合のレスポンス
+      required:
+      - detail
+      - status
+      type: object
+      properties:
+        detail:
+          type: string
+          description: エラーメッセージ
+        status:
+          type: number
+          description: HTTPステータスコード
+        title:
+          type: string
+          description: タイトル
+        type:
+          type: string
+          description: タイプ
+

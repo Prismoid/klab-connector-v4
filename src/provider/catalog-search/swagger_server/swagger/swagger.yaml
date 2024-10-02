@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  title: CADDE v4 Specification 提供者 カタログ検索IF
+  version: "4.0"
+servers:
+- url: /
+paths:
+  /cadde/api/v4/catalog:
+    get:
+      tags:
+      - Search
+      summary: API. カタログ検索(詳細検索)
+      description: |-
+        詳細検索リクエストを受け付け、メイン制御に処理を依頼する。
+        
+        Response:
+        * 処理が成功した場合は200を返す。
+        * 処理に失敗した場合は、2xx以外を返す。場合によりエラーを示すペイロードがつく場合もある。Responsesセクションを参照すること。
+      operationId: search
+      parameters:
+      - name: q
+        in: query
+        description: |-
+         CKAN検索条件クエリ
+         CKAN APIに準拠
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 認証方式：Bearer。認証トークン
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: CKANから取得したカタログ情報
+          content:
+            application/json:
+              example:
+                help: https:/xxx/api/3/action/help_show?name=package_search
+                success: true
+                result:
+                  count: 0
+                  sort: score desc, metadata_modified desc
+                  facets: {}
+                  results: {}
+                  search_facets: {}
+      x-openapi-router-controller: swagger_server.controllers.search_controller
+components:
+  schemas:
+    ErrorResponse:
+      title: HTTPステータスコードが4xx、500の場合のレスポンス
+      required:
+      - error-message
+      type: object
+      properties:
+        error-message:
+          type: string
+          description: エラーメッセージ
+

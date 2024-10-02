@@ -1,0 +1,206 @@
+openapi: 3.0.0
+info:
+  title: CADDE v4 Specification 提供者 コネクタメイン
+  version: "4.0"
+servers:
+- url: /
+paths:
+  /cadde/api/v4/catalog:
+    get:
+      tags:
+      - Search
+      summary: API. カタログ検索(詳細検索)
+      description: |-
+        詳細CKANを利用し、カタログ情報を取得する。APIユーザが指定した条件に従いカタログ情報を取得する。
+
+        Response:
+        * 処理が成功した場合は200を返す。
+        * 処理に失敗した場合は、2xx以外を返す。Responsesセクション参照。
+      operationId: search
+      parameters:
+      - name: q
+        in: query
+        description: |-
+         CKAN検索条件クエリ
+         CKAN APIに準拠
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 認証方式：Bearer。認証トークン
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: CKANから取得したカタログ情報
+          content:
+            application/json:
+              example:
+                help: https:/xxx/api/3/action/help_show?name=package_search
+                success: true
+                result:
+                  count: 0
+                  sort: score desc, metadata_modified desc
+                  facets: {}
+                  results: {}
+                  search_facets: {}
+      x-openapi-router-controller: swagger_server.controllers.search_controller
+  /cadde/api/v4/file:
+    get:
+      tags:
+      - Files
+      summary: API. データ交換
+      description: |-
+        データ管理からファイル取得を行う。
+        リソースURLに応じて契約情報の確認やデータ証憑通知、送信履歴通知を行う。
+
+        Response:
+        * 処理が成功した場合は200を返す。
+        * 処理に失敗した場合は、2xx以外を返す。Responsesセクション参照。
+      operationId: files
+      parameters:
+      - name: x-cadde-resource-url
+        in: header
+        description: |-
+          リソースURL
+          （認可ありの限定データの場合、文字長は255文字以内。使用可能文字は半角英数、ハイフン、アンダーバーのみ）
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-resource-api-type
+        in: header
+        description: |-
+         リソース提供手段識別子
+         FTP、HTTP、NGSIのいずれかを指定する(FTP:file/ftp, HTTP:file/http, NGSI:api/ngsi)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 認証方式：Bearer。認証トークン
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-options
+        in: header
+        description: |-
+         NGSIオプション
+         データ提供IFが使用するカスタムヘッダー
+         ("key1:value1,key2:value2・・・"形式)
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: |-
+           呼び出し時のリソース提供手段識別子が"file/ftp","file/http"の場合はダウンロードしたファイル "api/ngsi"の場合はJSON形式、また、ヘッダcadde-optionsにレスポンスヘッダ情報、ヘッダ情報に識別情報を設定
+          headers:
+            x-cadde-provenance:
+              description: 来歴管理I/Fから受領した識別情報 識別情報を受領しなかった場合は''(空文字)を設定する
+              schema:
+                type: string
+            x-cadde-provenance-management-service-url:
+              description: 来歴管理サービスURL
+              style: simple
+              explode: false
+              schema:
+                type: string
+            x-cadde-contract-id:
+              description: 取引ID
+              schema:
+                type: string
+            x-cadde-contract-type:
+              description: 契約形態
+              schema:
+                type: string
+            x-cadde-contract-management-service-url:
+              description: 契約管理サービスURL
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              example: text or csv or pdf etc..
+        "400":
+          description: パラメータ不正の場合のエラーメッセージ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  summary: リソース提供手段識別子確認時に不正な値が設定されている場合
+                  value:
+                    detail: リソース提供手段識別子の値が不正です。リクエストパラメータの値を確認してください。
+                    status: 400
+                    title: ""
+                    type: ""
+        "403":
+          description: 認可情報不正の場合のエラーメッセージ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  summary: 認可トークンからCADDEユーザIDが取得できなかった場合
+                  value:
+                    detail: 有効な認可トークンが取得できません。有効な利用者トークンを設定してください。
+                    status: 403
+                    title: ""
+                    type: ""
+        "500":
+          description: サーバーの内部処理で異常が発生した場合のエラーメッセージ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                response:
+                  summary: 取引市場利用が有効かつ、データ取得時に取引IDが取得できなかった場合
+                  value:
+                    detail: 取引市場利用に必要な取引IDの値がありません。コンフィグファイルの設定を確認してください。
+                    status: 500
+                    title: ""
+                    type: ""
+      x-openapi-router-controller: swagger_server.controllers.files_controller
+components:
+  schemas:
+    SuccessResponse:
+      title: HTTPステータスコードが200の場合のレスポンス
+      type: string
+    ErrorResponse:
+      title: HTTPステータスコードが4xx、500の場合のレスポンス
+      required:
+      - detail
+      - status
+      type: object
+      properties:
+        detail:
+          type: string
+          description: エラーメッセージ
+        status:
+          type: number
+          description: HTTPステータスコード
+        title:
+          type: string
+          description: タイトル
+        type:
+          type: string
+          description: タイプ
+

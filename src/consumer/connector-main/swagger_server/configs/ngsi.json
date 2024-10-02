@@ -1,0 +1,8 @@
+{
+    "ngsi_auth" : [
+        {
+            "domain" : "example.com:PORT",
+            "auth" : "input API key."
+        }
+    ]
+}

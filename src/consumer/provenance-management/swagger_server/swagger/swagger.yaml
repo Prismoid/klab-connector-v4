@@ -1,0 +1,265 @@
+openapi: 3.0.0
+info:
+  title: CADDE v4 Specification 利用者 来歴管理I/F
+  version: "4.0"
+servers:
+- url: /
+paths:
+  /voucher/received:
+    post:
+      tags:
+      - VoucherReceived
+      summary: API. データ証憑通知（受信）
+      description: |-
+        来歴管理にデータ証憑通知（受信）を依頼する。
+
+        Response:
+        * 処理が成功した場合は200を返す。
+        * 処理に失敗した場合は、2xx以外のコードを返す。 Responsesセクションを参照。
+      operationId: voucher_received
+      parameters:
+      - name: x-cadde-provider
+        in: header
+        description: CADDEユーザID（提供者）
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-consumer
+        in: header
+        description: CADDEユーザID（利用者）
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-contract-id
+        in: header
+        description: 取引ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-hash-get-data
+        in: header
+        description: |-
+         ハッシュ値
+         取得したデータを特定のハッシュアルゴリズムによってハッシュ化した値
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-contract-management-service-url
+        in: header
+        description: 契約管理サービスURL
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 認証方式：Bearer。認証トークン
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: 処理完了のレスポンスを返す
+          content:
+            application/json:
+              example: ""
+      x-openapi-router-controller: swagger_server.controllers.voucher_received_controller
+  /eventwithhash/received:
+    post:
+      tags:
+      - Received
+      summary: API. 受信履歴登録
+      description: |-
+        来歴管理に受信履歴登録を行い、識別情報を取得する。
+
+        Response:
+        * 処理が成功した場合は200を返す。
+        * 処理に失敗した場合は、2xx以外を返す。Responsesセクション参照。
+      operationId: received
+      parameters:
+      - name: x-cadde-provider
+        in: header
+        description: CADDEユーザID（提供者）
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-consumer
+        in: header
+        description: CADDEユーザID（利用者）
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-resource-id-for-provenance
+        in: header
+        description: |-
+         識別情報
+         識別情報交換実績記録用リソースIDを指す。
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-cadde-provenance-management-service-url
+        in: header
+        description: 来歴管理サービスURL
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: 認証方式：Bearer。認証トークン
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: ヘッダ情報に識別情報を設定
+          headers:
+            x-cadde-provenance:
+              description: 来歴管理I/Fから受領した識別情報 
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              example: ""
+      x-openapi-router-controller: swagger_server.controllers.received_controller
+components:
+  schemas:
+    ErrorResponse:
+      title: HTTPステータスコードが4xx、500の場合のレスポンス
+      required:
+      - detail
+      - status
+      type: object
+      properties:
+        detail:
+          type: string
+          description: エラーメッセージ
+        status:
+          type: number
+          description: HTTPステータスコード
+        title:
+          type: string
+          description: タイトル
+        type:
+          type: string
+          description: タイプ
+    CDLDataTag:
+      type: object
+      properties:
+        cdluri:
+          type: string
+          description: |-
+            uri of the file.
+          example: http://example.com/pa/th/ecaefa29-39af-459b-ab84-b3fa674584f6
+        cdlsha256hash:
+          type: string
+          example: b589b63bc6217ed0be9ed63b6a88984fc61e0732bbb5a7fb05a19c7b764b9c5b
+        cdlwebdavtimestamp:
+          type: string
+          format: date-time
+          example: 2020-08-05T10:57:22+09:00
+        cdlsize:
+          type: integer
+          format: int64
+          example: 3
+      additionalProperties: true
+      example:
+        cdluri: http://example.com/pa/th/ecaefa29-39af-459b-ab84-b3fa674584f6
+        cdlwebdavtimestamp: 2020-08-05T10:57:22+09:00
+        cdlsize: 3
+        cdlsha256hash: b589b63bc6217ed0be9ed63b6a88984fc61e0732bbb5a7fb05a19c7b764b9c5b
+    CDLEvent:
+      required:
+      - cdldatamodelversion
+      - cdleventtype
+      type: object
+      properties:
+        cdldatamodelversion:
+          type: string
+          description: version of this object. must be "2.0".
+        cdleventid:
+          type: string
+          description: eventid of each event is optional when user registeres an event.
+            if an event object does not have an eventid, cdl creates a unique id for
+            the event. if user supplies with an eventid, it has to be unique within
+            the cdl network. cdl will check if it is indeed unique. event object returned
+            from cdl api will always have an eventid.
+          example: 194430e2-0f28-4bd4-8674-6ef6ec0198b0
+        cdlorganization:
+          type: string
+          description: name of the organization who created this event. this is assigned
+            by the cdl. if you set this value in your `POST /event` request, it will
+            be overwritten by the cdl.
+        cdleventtype:
+          type: string
+          description: the nature of the event. it is recommended to define a set
+            of eventtypes that are known to all organizations.
+        cdltimestamp:
+          type: string
+        cdlpreviousevents:
+          type: array
+          description: list of eventids
+          items:
+            type: string
+        cdldatatags:
+          type: array
+          items:
+            $ref: '#/components/schemas/CDLDataTag'
+      additionalProperties: true
+      example:
+        cdlorganization: cdlorganization
+        cdltimestamp: cdltimestamp
+        cdldatamodelversion: cdldatamodelversion
+        cdleventtype: cdleventtype
+        cdlpreviousevents:
+        - cdlpreviousevents
+        - cdlpreviousevents
+        cdleventid: 194430e2-0f28-4bd4-8674-6ef6ec0198b0
+        cdldatatags:
+        - cdluri: http://example.com/pa/th/ecaefa29-39af-459b-ab84-b3fa674584f6
+          cdlwebdavtimestamp: 2020-08-05T10:57:22+09:00
+          cdlsize: 3
+          cdlsha256hash: b589b63bc6217ed0be9ed63b6a88984fc61e0732bbb5a7fb05a19c7b764b9c5b
+        - cdluri: http://example.com/pa/th/ecaefa29-39af-459b-ab84-b3fa674584f6
+          cdlwebdavtimestamp: 2020-08-05T10:57:22+09:00
+          cdlsize: 3
+          cdlsha256hash: b589b63bc6217ed0be9ed63b6a88984fc61e0732bbb5a7fb05a19c7b764b9c5b
+    CDLEventList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CDLEvent'
+    CDLEventResponse:
+      type: object
+      properties:
+        cdleventid:
+          type: string
+    body:
+      required:
+      - selector
+      type: object
+      properties:
+        selector:
+          type: object
+

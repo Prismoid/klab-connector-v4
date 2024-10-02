@@ -1,0 +1,6 @@
+{
+    "consumer_connector_id" : "<利用者コネクタのクライアントID>",
+    "consumer_connector_secret" : "<利用者コネクタのクライアントシークレット>",
+    "location_service_url" : "",
+    "trace_log_enable" : true 
+}

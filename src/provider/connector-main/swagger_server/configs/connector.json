@@ -1,0 +1,6 @@
+{
+    "provider_id" : "<CADDEユーザID>",
+    "provider_connector_id" : "<提供者コネクタのクライアントID>",
+    "provider_connector_secret" : "<提供者コネクタのクライアントシークレット>",
+    "trace_log_enable" : true
+}

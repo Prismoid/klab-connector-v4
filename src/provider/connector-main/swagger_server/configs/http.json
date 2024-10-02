@@ -1,0 +1,33 @@
+{
+    "basic_auth": [],
+    "authorization": [
+        {
+            "url": "https://example1.com/data.txt",
+            "enable": true
+        },
+        {
+            "url": "https://example2.com/data.txt",
+            "enable": false
+        }
+    ],
+    "contract_management_service": [
+        {
+            "url": "https://example1.com/data.txt",
+            "enable": false
+        },
+        {
+            "url": "https://example2.com/data.txt",
+            "enable": false
+        }
+    ],
+    "register_provenance": [
+        {
+            "url": "https://example1.com/data.txt",
+            "enable": true
+        },
+        {
+            "url": "https://example2.com/data.txt",
+            "enable": true
+        }
+    ]
+}

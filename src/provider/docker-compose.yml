@@ -1,0 +1,97 @@
+services:
+  provider-catalog-search:
+    build: catalog-search
+    image: provider/catalog-search:4.0.0
+    hostname: provider_catalog_search
+    container_name: provider_catalog_search
+    restart: always
+    logging:
+      driver: "json-file" # defaults if not specified
+      options:
+        max-size: "10m"
+        max-file: "10"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./catalog-search/swagger_server/:/usr/src/app/swagger_server/:ro"
+    environment:
+      - "LC_CTYPE=C.UTF-8"
+  provider-connector-main:
+    build: connector-main
+    image: provider/connector-main:4.0.0
+    hostname: provider_connector_main
+    container_name: provider_connector_main
+    restart: always
+    logging:
+      driver: "json-file" # defaults if not specified
+      options:
+        max-size: "10m"
+        max-file: "10"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./connector-main/swagger_server/:/usr/src/app/swagger_server/:ro"
+      - "./certs/cacert.pem:/usr/local/share/ca-certificates/cacert.pem"
+    environment:
+      - "LC_CTYPE=C.UTF-8"
+      - REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+    entrypoint: /bin/sh -c "update-ca-certificates && python3 -m swagger_server"
+    extra_hosts:
+      - "data-management.siteXX.internal:host-gateway"
+  provider-data-exchange:
+    build: data-exchange
+    image: provider/data-exchange:4.0.0
+    hostname: provider_data_exchange
+    container_name: provider_data_exchange
+    restart: always
+    logging:
+      driver: "json-file" # defaults if not specified
+      options:
+        max-size: "10m"
+        max-file: "10"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./data-exchange/swagger_server/:/usr/src/app/swagger_server/:ro"
+    environment:
+      - "LC_CTYPE=C.UTF-8"
+  provider-authorization:
+    build: authorization
+    image: provider/authorization:4.0.0
+    hostname: provider_authorization
+    container_name: provider_authorization
+    restart: always
+    logging:
+      driver: "json-file" # defaults if not specified
+      options:
+        max-size: "10m"
+        max-file: "10"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./authorization/swagger_server/:/usr/src/app/swagger_server/:ro"
+    environment:
+      - "LC_CTYPE=C.UTF-8"
+  provider-provenance-management:
+    build: provenance-management
+    image: provider/provenance-management:4.0.0
+    hostname: provider_provenance_management
+    container_name: provider_provenance_management
+    restart: always
+    logging:
+      driver: "json-file" # defaults if not specified
+      options:
+        max-size: "10m"
+        max-file: "10"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "./provenance-management/swagger_server/:/usr/src/app/swagger_server/:ro"
+    environment:
+      - "LC_CTYPE=C.UTF-8"
+  provider-reverse-proxy:
+    container_name: provider_reverse-proxy
+    image: nginx:1.23.1
+    volumes:
+      - ./nginx/volumes/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/volumes/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/volumes/ssl:/etc/nginx/ssl
+    ports:
+      - 443:443
+      - 80:80
+    restart: always
