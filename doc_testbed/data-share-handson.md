@@ -116,7 +116,7 @@ bash 0-reg_authorized_data.sh
 ### 1.4. 認可サーバでの認可設定
 
 　`http://cadde-authz-<ユーザシリアル番号>.<SITENAME>.dataspace.internal:5080`にアクセスし、[認可の設定](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/provider.md#33-認可の設定)を参考に設定を行う。
-例えば、CADDEユーザIDが`0001-koshizukalab`の場合、`http://cadde-authz-<ユーザシリアル番号>.<SITENAME>.dataspace.internal:5080`にアクセスすることで、設定を行える。
+例えば、CADDEユーザIDが`0001-koshizukalab`の場合、`http://cadde-authz-0001.koshizukalab.dataspace.internal:5080`にアクセスすることで、設定を行える。
 提供するデータファイルが`authorized.txt`の場合、認可設定時のリソースURLは`http://data-management.${SITE_NAME}.internal:8080/authorized.txt`となる。
 
 
