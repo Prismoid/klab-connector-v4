@@ -9,22 +9,49 @@
 
 
 ## 1. CADDEでデータを提供する
-　本ハンズオンでは`authorized.txt`というファイルを、提供者が管理するプライベートHTTPデータサーバから、提供者コネクタを経由して利用者コネクタで取得し、WebAppからダウンロードする一連の手続きを説明します。
+　本ハンズオンでは`authorized.txt`というファイルを、提供者が管理するプライベートHTTPデータサーバから、提供者コネクタを経由して利用者コネクタで取得し、WebAppからダウンロードする一連の手続きを説明する。
 
 ### 1.1 データサーバへのファイルの配置。
-　`authorized.txt`を共有したい場合、ディレクトリ`${WORKDIR}/private-http-server/data`にデータを保存しておけば良い。
-つまり、以下のようになれば良い。
+　ファイルを共有したい場合、ディレクトリ`${WORKDIR}/private-http-server/data`にデータを保存しておけば良い。
+例えば、テキストファイル`authorized.txt`を保存したい場合は、以下のようになっていれば良い。
 
 ```bash
 $ ls ${WORKDIR}/private-http-server/data/
 authorized.txt  unauthorized.txt
 ```
-上記、2ファイルは[データ共有環境の構築(高速版)](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/high-speed-data-share-setup.md)を実行すると、デフォルトで保存されている。
+　※ 上記、2ファイルは[データ共有環境の構築(高速版)](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/high-speed-data-share-setup.md)を実行すると、デフォルトで保存されている。
+
+また、データファイルのリソースURLは`http://data-management.seike.internal:8080/<ファイル名>`となっている。TXTファイルでなくCSV等の別の拡張子にしても問題ない。
+例えば、`authorized.txt`を指し示すリソースURLは、
+
+```txt
+http://data-management.seike.internal:8080/authorized.txt
+```
+　である。このリソースURLをキーとして、カタログ作成や認可登録を行い、提供者コネクタとの連携を行う。
+
 
 
 ### 1.2. データカタログの作成
 
-　以下は提供者カタログサイト(https://cadde-catalog-0001.<サイト名>.dataspace.internal:8433)にアクセスし、設定を行う。
+　カタログは提供者カタログサイトにアクセスし、設定を行う。
+[データ共有環境の構築(高速版)](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/high-speed-data-share-setup.md)を終えている場合、以下のURLにブラウザから接続することで、
+データ提供者の管理するカタログサイト(CKAN)に接続できるはずである。
+
+```txt
+https://cadde-catalog-<ユーザシリアル番号>.<サイト名>.dataspace.internal:8443
+```
+　例えば、CADDEユーザID`0001-koshizukalab`であれば、以下のURLに接続すればよい。
+```txt
+https://cadde-catalog-0001.koshizukalab.dataspace.internal:8443
+```
+
+CAKNでのカタログ作成方法については、[カタログを作成する](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/provider.md#32-データカタログの作成)を参考にする。
+
+
+### 1.3 認可機能の登録
+
+
+
 
 ### 1.1.1 CKANサイトでアカウントを作成し、`CKAN_API_KEY`を取得する。
 　[CKANの初期設定](https://github.com/Koshizuka-lab/klab-connector-v4/blob/data-share-handson/doc_testbed/provider.md#212-ckanの初期設定)を参考にアカウントを作成する。
