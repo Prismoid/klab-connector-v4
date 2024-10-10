@@ -9,9 +9,20 @@
 
 
 ## 1. CADDEでデータを提供する
+　本ハンズオンでは`authorized.txt`というファイルを、提供者が管理するプライベートHTTPデータサーバから、提供者コネクタを経由して利用者コネクタで取得し、WebAppからダウンロードする一連の手続きを説明します。
+
+### 1.1 データサーバへのファイルの配置。
+　`authorized.txt`を共有したい場合、ディレクトリ`${WORKDIR}/private-http-server/data`にデータを保存しておけば良い。
+つまり、以下のようになれば良い。
+
+```bash
+$ ls ${WORKDIR}/private-http-server/data/
+authorized.txt  unauthorized.txt
+```
+上記、2ファイルは[データ共有環境の構築(高速版)](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/high-speed-data-share-setup.md)を実行すると、デフォルトで保存されている。
 
 
-### 1.1. データカタログの作成
+### 1.2. データカタログの作成
 
 　以下は提供者カタログサイト(https://cadde-catalog-0001.<サイト名>.dataspace.internal:8433)にアクセスし、設定を行う。
 
