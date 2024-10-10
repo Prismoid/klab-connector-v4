@@ -8,11 +8,11 @@
 (命名規則については、[CADDE命名規則](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/domain_registration.md)を参照すること)
 
 ```txt
-cadde-catalog-.<サイト名>.dataspace.internal => 10.250.254.9 
-cadde-provider-<シリアル番号>.<サイト名>.dataspace.internal => 10.250.254.9
-cadde-authz-<シリアル番号>.<サイト名>.dataspace.internal => 10.250.254.9
-cadde-consumer-<シリアル番号>.<サイト名>.dataspace.internal => 10.250.254.9
-cadde-webapp-<シリアル番号>.<サイト名>.dataspace.internal => 10.250.254.9
+cadde-catalog-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-provider-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-authz-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-consumer-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-webapp-0001.koshizukalab.dataspace.internal => 10.250.3.132
 ```
 
 作業ディレクトリは、ホームディレクトリ直下に作成された`~/cadde-testbed`とする。
