@@ -4,6 +4,8 @@
 
 ## 0.前提
 
+　異なるVPN上のIPアドレスを持つデスクトップPCとUbuntuサーバを準備する。その後、PCからUbuntu 22.04にssh接続して、作業を開始する。
+
 <img src="./images/standard-dev-env.png" alt="環境" width="60%"/>
 
 　各CADDEサービスの名前解決用のDNSの設定は完了しているものとする。
