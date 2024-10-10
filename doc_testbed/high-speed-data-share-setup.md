@@ -24,7 +24,7 @@ $ mkdir ~/cadde_testbed && cd ~/cadde_testbed
 $ export WORKDIR=$PWD
 ```
 
-　作業ディレクトリに秘密鍵(server.key)、サーバ証明書(server.crt、cacert.pem)を保存するディレクトリ`certs`を配置する。つまり、次のような状態にする。
+　[CADDEテストベッド用TLS証明書の取得方法](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/certificate.md)に従って、UTokyo ITDT運営者に連絡を取り、秘密鍵(server.key)、サーバ証明書(server.crt、cacert.pem)を作成・取得する。それらを作業ディレクトリ下のディレクトリ`certs`に保存する。つまり、次のような状態になれば良い。
 ```
 $ ls ${WORKDIR}/certs/
 cacert.pem  server.crt  server.key
