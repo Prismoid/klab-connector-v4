@@ -4,12 +4,12 @@
 
 ## 0.前提
 
-　ITDTのVPN上で、異なるIPアドレスを持つPCとUbuntuサーバを事前に準備する。PCはブラウザAppのGUI操作、マシン(Ubuntu 22.04)にsshしてコネクタなどのコンポーネントをインストールするために使用する。
+　ITDTのVPN上で、異なるIPアドレスを持つPCとUbuntuサーバを事前に準備する。PCはWebApp等のブラウザからのGUI操作、マシン(Ubuntu 22.04)にsshしてコネクタなどのコンポーネントをインストールする等のために使用する。
 
 <img src="./images/standard-dev-env.png" alt="環境" width="60%"/>
 
 　各CADDEサービスの名前解決用のDNSの設定は完了しているものとする。
-以下は、CADDEユーザIDが`0001-koshizukalab`、サイト名が`koshizukalab`である場合の例である。
+以下は、CADDEユーザIDが`0001-koshizukalab`、サイト名が`koshizukalab`となる場合の例である。
 (命名規則については、[CADDE命名規則](https://github.com/Prismoid/klab-connector-v4/blob/testbed/doc_testbed/domain_registration.md)を参照すること)
 
 ```txt
@@ -26,7 +26,7 @@ $ mkdir ~/cadde_testbed && cd ~/cadde_testbed
 $ export WORKDIR=$PWD
 ```
 
-　[CADDEテストベッド用TLS証明書の取得方法](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/certificate.md)に従って、UTokyo ITDT運営者に連絡を取り、秘密鍵(server.key)、サーバ証明書(server.crt、cacert.pem)を作成・取得する。それらを作業ディレクトリ下のディレクトリ`certs`に保存する。つまり、次のような状態になれば良い。
+　[CADDEテストベッド用TLS証明書の取得方法](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/certificate.md)に従って、UTokyo ITDT運営者に連絡を取り、秘密鍵(server.key)、サーバ証明書(server.crt、cacert.pem)を作成・取得する。それらを作業ディレクトリ下のサブディレクトリ`certs`に保存する。つまり、次のような状態になれば良い。
 ```
 $ ls ${WORKDIR}/certs/
 cacert.pem  server.crt  server.key
@@ -71,7 +71,7 @@ cd ${WORKDIR}/data-share-handson-scripts
 bash set-dirs.sh
 ```
 
-　この結果、作業ディレクトリが以下のようになっていれば良い。
+　この結果、作業ディレクトリが以下のようになる。
 
 ```bash
 $ ls ${WORKDIR}
