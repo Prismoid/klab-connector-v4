@@ -132,4 +132,10 @@ CADDEユーザIDが`0001-koshizukalab`の場合、WebAppのURLは`http://cadde-w
 
 ### 1.6. CADDE上のデータの来歴を確認する
 
-最後に
+
+
+## 2. 各種コンテナの停止について
+
+　稼働しているコンテナ群は主に6つに分類される。
+提供者コネクタ、提供者カタログサイト、提供者認可サーバ、利用者コネクタ、WebApp、プライベートHTTPサーバである。
+これらの稼働と停止方法については、[データ共有環境の構築](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/data-share-setup.md)に記載しているため、参考にすること。
