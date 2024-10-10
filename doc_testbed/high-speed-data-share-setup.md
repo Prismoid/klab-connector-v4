@@ -3,6 +3,9 @@
 <!-- omit in toc -->
 
 ## 0.前提
+
+<img src="./images/standard-dev-env.png" alt="環境" width="40%"/>
+
 　各CADDEサービスの名前解決用のDNSの設定は完了しているものとする。
 以下は、CADDEユーザIDが`0001-koshizukalab`、サイト名が`koshizukalab`である場合の例である。
 (命名規則については、[CADDE命名規則](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/domain_registration.md)を参照すること)
