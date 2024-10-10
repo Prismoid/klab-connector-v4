@@ -4,8 +4,7 @@
 
 ## 0. 前提
 
-　[データ共有環境の構築(通常版)](https://github.com/Koshizuka-lab/klab-connector-v4/blob/data-share-handson/doc_testbed/data-share-setup.md)
-または、[データ共有環境の構築(高速版)](https://github.com/Koshizuka-lab/klab-connector-v4/blob/data-share-handson/doc_testbed/high-speed-data-share-setup.md)を完了させている。
+　[データ共有環境の構築(高速版)](https://github.com/Koshizuka-lab/klab-connector-v4/blob/data-share-handson/doc_testbed/high-speed-data-share-setup.md)を完了させている。
 
 
 
