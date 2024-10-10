@@ -37,7 +37,10 @@ cd ${WORKDIR}
 git clone https://github.com/Koshizuka-lab/data-share-handson-scripts.git
 ```
 
-　クローンしたリポジトリにある環境変数の設定ファイル`config.env`を編集する。
+## 1. コネクタと関連コンポーネントの一括インストール
+
+
+　クローンしたリポジトリ`data-share-handson-scripts`にある環境変数設定用のファイル`config.env`を編集する。
 ```bash
 cd ${WORKDIR}/data-share-handson-scripts
 vim config.env 
@@ -62,21 +65,29 @@ WEBAPP_CLIENT_SECRET=ZZZZZZZZZZZZZZZZZZZZZZ
 WORKDIR=~/cadde_testbed
 ```
 
-　最後に、各種リポジトリを一斉にクローンする以下のスクリプトを実行する。
+　最後に、各種コンポーネントのソースコードをリポジトリから一斉にクローンするため、以下のスクリプトを実行する。
 ```bash
 cd ${WORKDIR}/data-share-handson-scripts
-bash 0-set-dirs.sh
+bash set-dirs.sh
+```
+
+　この結果、作業ディレクトリが以下のようになっていれば良い。
+
+```bash
+$ ls ${WORKDIR}
+certs  ckan-docker  data-share-handson-scripts  klab-connector-v4  private-http-server  ut-cadde_gui
+
 ```
 
 
-## 1. 以下のスクリプトを実行し、CKAN、提供者コネクタ、認可サーバ、利用者コネクタ、WebApp、Private-HTTP-Serverを立ち上げる。
+　続いて、以下のスクリプトを実行し、CKAN、提供者コネクタ、認可サーバ、利用者コネクタ、WebApp、Private-HTTP-Serverを立ち上げる。
 
 ```bash
 cd ${WORKDIR}/data-share-handson-scripts/set-containers
 bash 7-all_set.sh
 ```
 
-　途中に出てきた以下の設定項目を対話的に入力する。なお、初期設定の内容はDockerボリュームに保存されるため、同じボリューム上ですでに初期設定を行っていれば、再度この手順を行う必要はない。
+　途中に出てきた以下の設定項目を対話的に入力する。この設定は認可サーバと提供者コネクタを連携するための設定である。詳細は[認可機能の初期セットアップ](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/provider.md#236-認可機能の初期セットアップ)を参照すること。
 
 - **CADDEユーザID**
   - データ提供者のCADDEユーザID
@@ -108,8 +119,7 @@ CADDE認証機能認証サーバのURL: https://cadde-authn.koshizukalab.dataspa
 
 #### 提供者コネクタクライアントシークレットの取得。
 　最初に、起動した認可サーバにブラウザからアクセスする。
-CADDEユーザIDが`XXXX-<サイト名>`の場合、`http://cadde-authz-XXXX.<サイト名>.dataspace.internal:5080`にアクセスする。
-例えば、CADDEユーザIDが`0001-koshizukalab`の場合、`http://cadde-authz-0001.koshizukalab.dataspace.internal:5080`にアクセスすれば良い。
+CADDEユーザIDが`0001-koshizukalab`の場合、`http://cadde-authz-0001.koshizukalab.dataspace.internal:5080`にアクセスする。
 `ログイン`を押し、CADDEユーザIDとパスワードを入力する。
 左側にある`認可機能の設定`をクリックすると、提供者コネクタのクライアントシークレットを確認できる。
 認可機能のGUIについては、[認可機能の設定について](https://github.com/Koshizuka-lab/klab-connector-v4/blob/data-share-handson/doc_testbed/provider.md#33-認可の設定)を参考にすること。
@@ -143,14 +153,23 @@ bash 3-1-prov_authz_set.sh
 ```
 
 ## 3. 最後に
-以上により、データ交換を実行する前に必要なDockerコンテナに関して、全て稼働した状態となった。
-続いて、ハンズオンで行った`authorized.txt`について、以下の手続きを行う。
-この流れの詳細は
+　本手続きで以下のサービスがUbuntuマシンで稼働している状況となっている(CADDEユーザIDは`0001-koshizukalab`、サイト名は`koshizukalab`とする)。
+- データ提供者コネクタ: cadde-provider-0001.koshizukalab.dataspace.internal:443
+- データ提供者の管理するカタログ: cadde-catalog-0001.koshizukalab.dataspace.internal:8080
+- データ提供者の管理する認可サーバ: cadde-authz-0001.koshizukalab.dataspace.internal:5080
+- データ利用者コネクタ: cadde-consumer-0001.koshizukalab.dataspace.internal:1443
+- データ利用者のWebApp: cadde-webapp-0001.koshizukalab.dataspace.internal:3000
 
+　以上により、データ交換を実行する前に必要なDockerコンテナに関して、全て稼働した状態となった。
+続いて、ハンズオンで行った`authorized.txt`を利用者コネクタが提供者コネクタを介してダウンロードする方法について説明する。
+以下の手続きは別のファイルで説明する。
+
+- データファイルの配置
 - データカタログの作成
 - データの認可登録
 - データの原本情報登録(来歴管理サーバ+カタログサイト)
-- 提供者コネクタに対する設定(こちらは本手続き中で既に行っています)
-  - データサーバのロケーションの設定
-  - 認可機能の追加設定
-  - 来歴管理機能の追加設定
+- 提供者コネクタに対する設定
+  - 提供データのリソースURLとアクセスポリシーの設定
+  - データサーバのロケーションの設定(こちらは本手続き中で既に行っています)
+  - 認可機能の追加設定(こちらは本手続き中で既に行っています)
+  - 来歴管理機能の追加設定(こちらは本手続き中で既に行っています)
