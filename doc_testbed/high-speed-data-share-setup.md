@@ -161,8 +161,8 @@ bash 3-1-prov_authz_set.sh
 - データ利用者のWebApp: cadde-webapp-0001.koshizukalab.dataspace.internal:3000
 
 　以上により、データ交換を実行する前に必要なDockerコンテナに関して、全て稼働した状態となった。
-続いて、ハンズオンで行った`authorized.txt`を利用者コネクタが提供者コネクタを介してダウンロードする方法について説明する。
-以下の手続きは別のファイルで説明する。
+続いて、ハンズオンで行った`authorized.txt`を、提供者コネクタから利用者コネクタを介してダウンロードする方法について説明する。
+以下の手続きは[データ共有ハンズオン](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/data-share-handson.md)で説明する。
 
 - データファイルの配置
 - データカタログの作成
