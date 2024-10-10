@@ -155,7 +155,7 @@ bash 3-1-prov_authz_set.sh
 ## 3. 最後に
 　本手続きで以下のサービスがUbuntuマシンで稼働している状況となっている(CADDEユーザIDは`0001-koshizukalab`、サイト名は`koshizukalab`とする)。
 - データ提供者コネクタ: cadde-provider-0001.koshizukalab.dataspace.internal:443
-- データ提供者の管理するカタログ: cadde-catalog-0001.koshizukalab.dataspace.internal:8080
+- データ提供者の管理するカタログサイト: cadde-catalog-0001.koshizukalab.dataspace.internal:8080
 - データ提供者の管理する認可サーバ: cadde-authz-0001.koshizukalab.dataspace.internal:5080
 - データ利用者コネクタ: cadde-consumer-0001.koshizukalab.dataspace.internal:1443
 - データ利用者のWebApp: cadde-webapp-0001.koshizukalab.dataspace.internal:3000
