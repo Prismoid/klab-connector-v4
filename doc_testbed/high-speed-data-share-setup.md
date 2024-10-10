@@ -26,7 +26,7 @@ $ mkdir ~/cadde_testbed && cd ~/cadde_testbed
 $ export WORKDIR=$PWD
 ```
 
-　[CADDEテストベッド用TLS証明書の取得方法](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/certificate.md)に従って、UTokyo ITDT運営者に連絡を取り、秘密鍵(server.key)、サーバ証明書(server.crt、cacert.pem)を作成・取得する。それらを作業ディレクトリ下のサブディレクトリ`certs`に保存する。つまり、次のような状態になれば良い。
+　[CADDEテストベッド用TLS証明書の取得方法](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/certificate.md)に従って、UTokyo ITDT運営者に連絡を取り、秘密鍵(server.key)、サーバ証明書(server.crt、cacert.pem)を作成・取得する。それらを作業ディレクトリ下のサブディレクトリ`certs`に保存する。つまり、次のような状態になれば良い。
 ```
 $ ls ${WORKDIR}/certs/
 cacert.pem  server.crt  server.key
@@ -92,9 +92,9 @@ bash 7-all_set.sh
 - **CADDEユーザID**
   - データ提供者のCADDEユーザID
 - **提供者コネクタのクライアントID**
-  - `settings.json`の`provider_connector_id`の値と一致させる（[2.3.4. 認証機能との連携に関する設定](#234-認証機能との連携に関する設定)を参照）
+  - `settings.json`の`provider_connector_id`の値と一致させる（[認証機能との連携に関する設定](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/provider.md#234-認証機能との連携に関する設定)を参照）
 - **CADDE認証機能認証サーバのURL**
-  - `settings.json`の`authn_keycloak_url`の値と一致させる（[2.3.4. 認証機能との連携に関する設定](#234-認証機能との連携に関する設定) を参照）
+  - `settings.json`の`authn_keycloak_url`の値と一致させる（[認証機能との連携に関する設定](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/provider.md#234-認証機能との連携に関する設定)を参照）
 
   
 　以下に初期セットアップの実行例を示す。ここで、CADDEユーザIDは`0001-koshizukalab`、サイト名は`koshizukalab`としている。
