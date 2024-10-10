@@ -4,7 +4,7 @@
 
 ## 0.前提
 
-<img src="./images/standard-dev-env.png" alt="環境" width="40%"/>
+<img src="./images/standard-dev-env.png" alt="環境" width="60%"/>
 
 　各CADDEサービスの名前解決用のDNSの設定は完了しているものとする。
 以下は、CADDEユーザIDが`0001-koshizukalab`、サイト名が`koshizukalab`である場合の例である。
