@@ -10,7 +10,7 @@
 
 　各CADDEサービスの名前解決用のDNSの設定は完了しているものとする。
 以下は、CADDEユーザIDが`0001-koshizukalab`、サイト名が`koshizukalab`となる場合の例である。
-(命名規則については、[CADDE命名規則](https://github.com/Prismoid/klab-connector-v4/blob/testbed/doc_testbed/domain_registration.md)を参照すること)
+(命名規則については、[CADDE命名規則](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/domain_registration.md)を参照すること)
 
 ```txt
 cadde-catalog-0001.koshizukalab.dataspace.internal => 10.250.3.132
