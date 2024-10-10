@@ -159,6 +159,8 @@ bash 3-1-prov_authz_set.sh
 - データ提供者の管理する認可サーバ: cadde-authz-0001.koshizukalab.dataspace.internal:5080
 - データ利用者コネクタ: cadde-consumer-0001.koshizukalab.dataspace.internal:1443
 - データ利用者のWebApp: cadde-webapp-0001.koshizukalab.dataspace.internal:3000
+- プライベートHTTPサーバ: localhost:8080
+
 
 　以上により、データ交換を実行する前に必要なDockerコンテナに関して、全て稼働した状態となった。
 続いて、ハンズオンで行った`authorized.txt`を、提供者コネクタから利用者コネクタを介してダウンロードする方法について説明する。
