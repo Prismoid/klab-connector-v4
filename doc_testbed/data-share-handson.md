@@ -21,11 +21,11 @@ authorized.txt  unauthorized.txt
 ```
 　※ 上記、2ファイルは[データ共有環境の構築(高速版)](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/high-speed-data-share-setup.md)を実行すると、デフォルトで保存されている。
 
-また、データファイルのリソースURLは`http://data-management.seike.internal:8080/<ファイル名>`となっている。TXTファイルでなくCSV等の別の拡張子にしても問題ない。
-例えば、`authorized.txt`を指し示すリソースURLは、
+また、データファイルのリソースURLは`http://data-management.<サイト名>.internal:8080/<ファイル名>`となっている。TXTファイルでなくCSV等の別の拡張子にしても問題ない。
+例えば、`authorized.txt`を指し示すリソースURLは、サイト名が`koshizukalab`ならば、
 
 ```txt
-http://data-management.seike.internal:8080/authorized.txt
+http://data-management.koshizukalab.internal:8080/authorized.txt
 ```
 　である。このリソースURLをキーとして、カタログ作成や認可登録を行い、提供者コネクタとの連携を行う。
 
