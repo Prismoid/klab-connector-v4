@@ -83,7 +83,7 @@ certs  ckan-docker  data-share-handson-scripts  klab-connector-v4  private-http-
 　続いて、以下のスクリプトを実行し、CKAN、提供者コネクタ、認可サーバ、利用者コネクタ、WebApp、Private-HTTP-Serverを立ち上げる。
 
 ```bash
-cd ${WORKDIR}/data-share-handson-scripts/set-containers
+cd ${WORKDIR}/data-share-handson-scripts/0-set-containers
 bash 7-all_set.sh
 ```
 
