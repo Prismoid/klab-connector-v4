@@ -4,7 +4,7 @@
 
 ## 0.前提
 
-　異なるVPN上のIPアドレスを持つPCとUbuntuサーバを事前に準備する。PCはブラウザAppのGUI操作、Ubuntuにsshしてコネクタなどのコンポーネントをマシン(Ubuntu 22.04)にインストールするために使用する。
+　ITDTのVPN上で、異なるIPアドレスを持つPCとUbuntuサーバを事前に準備する。PCはブラウザAppのGUI操作、Ubuntuにsshしてコネクタなどのコンポーネントをマシン(Ubuntu 22.04)にインストールするために使用する。
 
 <img src="./images/standard-dev-env.png" alt="環境" width="60%"/>
 
