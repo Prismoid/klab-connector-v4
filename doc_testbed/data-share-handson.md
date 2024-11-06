@@ -2,10 +2,39 @@
 
 <!-- omit in toc -->
 
-## 0. 前提
+## 0.前提
 
-　[データ共有環境の構築(高速版)](https://github.com/Prismoid/klab-connector-v4/blob/main/doc_testbed/high-speed-data-share-setup.md)を完了させている。
+　ITDTのVPN上で、異なるIPアドレスを持つPCとUbuntuサーバを事前に準備する。PCはWebApp等のブラウザからのGUI操作、マシン(Ubuntu 22.04)にsshしてコネクタなどのコンポーネントをインストールする等のために使用する。
 
+<img src="./images/standard-dev-env.png" alt="環境" width="60%"/>
+
+　各CADDEサービスの名前解決用のDNSの設定は完了しているものとする。
+以下は、CADDEユーザIDが`0001-koshizukalab`、サイト名が`koshizukalab`となる場合の例である。
+(命名規則については、[CADDE命名規則](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/domain_registration.md)を参照すること)
+
+```txt
+cadde-catalog-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-provider-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-authz-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-consumer-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-webapp-0001.koshizukalab.dataspace.internal => 10.250.3.132
+```
+
+作業ディレクトリは、ホームディレクトリ直下に作成された`~/cadde-testbed`とする。
+```bash
+$ mkdir ~/cadde_testbed && cd ~/cadde_testbed
+$ export WORKDIR=$PWD
+
+　[CADDEテストベッド用TLS証明書の取得方法](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/certificate.md)に従って、UTokyo ITDT運営者に連絡を取り、秘密鍵(server.key)、サーバ証明書(server.crt、cacert.pem)を作成・取得する。それらを作業ディレクトリ下のサブディレクトリ`certs`に保存する。つまり、次のような状態になれば良い。
+```bash
+$ ls ${WORKDIR}/certs/
+cacert.pem  server.crt  server.key
+```
+　続いて、CADDEのサービス群の設定を簡易に行うためのスクリプト群をGitHubからクローンする。
+```bash
+cd ${WORKDIR}
+git clone https://github.com/Koshizuka-lab/cadde-data-share-scripts.git
+```
 
 
 ## 1. CADDEでデータを提供する
