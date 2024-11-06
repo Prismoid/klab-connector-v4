@@ -3,13 +3,30 @@
 <!-- omit in toc -->
 
 ## 0.前提
-　各CADDEサービスの名前解決用のDNSの設定は完了しているものとする。作業ディレクトリは、ホームディレクトリ直下に作成された`~/cadde-testbed`とする。
+
+　ITDTのVPN上で、異なるIPアドレスを持つPCとUbuntuサーバを事前に準備する。PCはWebApp等のブラウザからのGUI操作、マシン(Ubuntu 22.04)にsshしてコネクタなどのコンポーネントをインストールする等のために使用する。
+
+<img src="./images/standard-dev-env.png" alt="環境" width="60%"/>
+
+　各CADDEサービスの名前解決用のDNSの設定は完了しているものとする。
+以下は、CADDEユーザIDが`0001-koshizukalab`、サイト名が`koshizukalab`となる場合の例である。
+(命名規則については、[CADDE命名規則](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/domain_registration.md)を参照すること)
+
+```txt
+cadde-catalog-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-provider-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-authz-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-consumer-0001.koshizukalab.dataspace.internal => 10.250.3.132
+cadde-webapp-0001.koshizukalab.dataspace.internal => 10.250.3.132
+```
+
+作業ディレクトリは、ホームディレクトリ直下に作成された`~/cadde-testbed`とする。
 ```bash
 $ mkdir ~/cadde_testbed && cd ~/cadde_testbed
 $ export WORKDIR=$PWD
 ```
 
-　作業ディレクトリに秘密鍵(server.key)、サーバ証明書(server.crt、cacert.pem)を保存するディレクトリ`certs`を配置する。つまり、次のような状態にする。
+　[CADDEテストベッド用TLS証明書の取得方法](https://github.com/Koshizuka-lab/klab-connector-v4/blob/testbed/doc_testbed/certificate.md)に従って、UTokyo ITDT運営者に連絡を取り、秘密鍵(server.key)、サーバ証明書(server.crt、cacert.pem)を作成・取得する。それらを作業ディレクトリ下のサブディレクトリ`certs`に保存する。つまり、次のような状態になれば良い。
 ```
 $ ls ${WORKDIR}/certs/
 cacert.pem  server.crt  server.key
@@ -20,36 +37,8 @@ cd ${WORKDIR}
 git clone https://github.com/Koshizuka-lab/data-share-handson-scripts.git
 ```
 
-　クローンしたリポジトリにある環境変数の設定ファイル`config.env`を編集する。
-```bash
-cd ${WORKDIR}/data-share-handson-scripts
-vim config.env 
-```
+## 1. 環境変数ファイルの設定
 
-　別途配布した「CADDEテストベッド利用情報」内にある【CADDEユーザアカウント/クライアント情報】を参考にして設定する。
-以下の例はCADDEユーザIDを`0001-koshizukalab`、サイト名を`koshizukalab`としている場合の設定例である。
-
-```dotenv
-# CADDEユーザアカウント情報
-CADDE_USER_ID=0001-koshizukalab
-CADDE_USER_NUMBER=0001
-SITE_NAME=koshizukalab
-# クライアントID/シークレット情報
-AUTHZ_CLIENT_ID=authz-0001-koshizukalab
-AUTHZ_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXX
-CONSUMER_CLIENT_ID=consumer-0001-koshizukalab
-CONSUMER_CLIENT_SECRET=YYYYYYYYYYYYYYYYYYYYYY
-WEBAPP_CLIENT_ID=webapp-0001-koshizukalab
-WEBAPP_CLIENT_SECRET=ZZZZZZZZZZZZZZZZZZZZZZ
-# 作業ディレクトリ
-WORKDIR=~/cadde_testbed
-```
-
-　最後に、各種リポジトリを一斉にクローンする以下のスクリプトを実行する。
-```bash
-cd ${WORKDIR}/data-share-handson-scripts
-bash 0-set-dirs.sh
-```
 
 
 ## 1. 提供者カタログサイト(CKAN)の設定と起動
