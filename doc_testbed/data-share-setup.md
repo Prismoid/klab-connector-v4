@@ -34,10 +34,52 @@ cacert.pem  server.crt  server.key
 　続いて、CADDEのサービス群の設定を高速に行うためのスクリプト群をGitHubからクローンする。
 ```bash
 cd ${WORKDIR}
-git clone https://github.com/Koshizuka-lab/data-share-handson-scripts.git
+git clone https://github.com/Koshizuka-lab/cadde-data-share-scripts.git
 ```
 
 ## 1. 環境変数ファイルの設定
+
+　クローンしたリポジトリ`cadde-data-share-scripts`にある環境変数設定用のファイル`config.env`を編集する。
+```bash
+cd ${WORKDIR}/cadde-data-share-scripts
+vim config.env 
+```
+
+　別途配布した「CADDEテストベッド利用情報」内にある【CADDEユーザアカウント/クライアント情報】を参考にして設定する。
+以下の例はCADDEユーザIDを`0001-koshizukalab`、サイト名を`koshizukalab`としている場合の設定例である。
+
+```dotenv
+# CADDEユーザアカウント情報
+CADDE_USER_ID=0001-koshizukalab
+CADDE_USER_NUMBER=0001
+SITE_NAME=koshizukalab
+# クライアントID/シークレット情報
+AUTHZ_CLIENT_ID=authz-0001-koshizukalab
+AUTHZ_CLIENT_SECRET=XXXXXXXXXXXXXXXXXXXXXXX
+CONSUMER_CLIENT_ID=consumer-0001-koshizukalab
+CONSUMER_CLIENT_SECRET=YYYYYYYYYYYYYYYYYYYYYY
+WEBAPP_CLIENT_ID=webapp-0001-koshizukalab
+WEBAPP_CLIENT_SECRET=ZZZZZZZZZZZZZZZZZZZZZZ
+# 作業ディレクトリ
+WORKDIR=~/cadde_testbed
+```
+
+　最後に、各種コンポーネントのソースコードをリポジトリから一斉にクローンするため、以下のスクリプトを実行する。
+```bash
+cd ${WORKDIR}/cadde-data-share-scripts
+bash set-dirs.sh
+```
+
+　この結果、作業ディレクトリが以下のようになる。
+
+```bash
+$ ls ${WORKDIR}
+certs  ckan-docker  data-share-handson-scripts  klab-connector-v4  private-http-server  ut-cadde_gui
+
+```
+
+
+　続いて、以下のスクリプトを実行し、CKAN、提供者コネクタ、認可サーバ、利用者コネクタ、WebApp、Private-HTTP-Serverを立ち上げる。
 
 
 
